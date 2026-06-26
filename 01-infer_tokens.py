@@ -5,7 +5,6 @@ from tqdm import tqdm
 import os
 import pickle
 import numpy as np
-import random
 from scipy.signal import hilbert, detrend
 from utils.utils import seed_everything
 
@@ -33,13 +32,21 @@ def dFC_fast(bold):
 def main():
     seed_everything()
     args = get_args()
-    files = os.listdir(args.input_data)
+    if not os.path.isdir(args.input_data):
+        raise FileNotFoundError(f"Input directory does not exist: {args.input_data}")
+    files = sorted(
+        name for name in os.listdir(args.input_data)
+        if name.endswith(".pkl") and os.path.isfile(os.path.join(args.input_data, name))
+    )
+    if not files:
+        raise ValueError(f"No .pkl files found in {args.input_data}")
     os.makedirs(args.output_path, exist_ok=True)
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model = NeuroLex_model(input_dim=7, condition_dim=1, hidden_dim=16,num_embeddings=12,latent_dim=8,commitment_cost=0.1,depth=4)
     model.load_state_dict(torch.load(args.model_path,map_location='cpu'))
     model.to(device)
+    model.eval()
 
     for file_case in tqdm(files):
         file_path = os.path.join(args.input_data, file_case)

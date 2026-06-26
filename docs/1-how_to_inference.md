@@ -1,71 +1,68 @@
-## 🧪 How to Run Inference on Your Own Data
+# Run inference on your own data
 
-This guide explains how to apply the NeuroLex pipeline to your own dataset.
+Install the environment and the temporary GAMLSS dependency as described in the [README](../README.md#installation).
 
----
+## 1. Prepare input files
 
-### **Step 1. Prepare your data**
-
-Organize your data into a folder where **each subject is stored as a `.pkl` file**.
-
-Each file should be a Python dictionary with the following keys:
-
-* `timeseries`: fMRI time series (NumPy array)
-* `age`: subject age
-* `sex`: subject sex (`male` / `female`)
-* `site`: site identifier (can be `"anonymous"`)
-
-#### Example
+Put one participant dictionary in each `.pkl` file. The directory name becomes the dataset/group label during feature extraction.
 
 ```python
 import os
-import numpy as np
 import pickle
+import numpy as np
 
-save_dir = 'your_path/train'
-os.makedirs(save_dir, exist_ok=True)
+output_dir = "data/clinical"
+os.makedirs(output_dir, exist_ok=True)
 
-tmp = dict()
-dat = np.load(file_path)  # path/to/your/timeseries.npy
-
-tmp['timeseries'] = dat
-tmp['age'] = row['age']
-tmp['sex'] = row['sex']
-tmp['site'] = 'anonymous'
-
-save_path = os.path.join(save_dir, f"{name}.pkl")  # define your own naming
-with open(save_path, 'wb') as f:
-    pickle.dump(tmp, f)
+subject = {
+    "timeseries": np.load("path/to/timeseries.npy"),  # (timepoints, 7)
+    "age": 30,
+    "sex": "female",
+    "site": "my_site",
+}
+with open(os.path.join(output_dir, "participant_001.pkl"), "wb") as file:
+    pickle.dump(subject, file)
 ```
 
----
+`timeseries` must contain the same Yeo-7 representation and compatible preprocessing as the pretrained NeuroLex checkpoint.
 
-### **Step 2. Infer Brain State Tokens (BSTs)**
-
-Run token inference using the pretrained NeuroLex model:
+## 2. Infer brain-state tokens
 
 ```bash
 python 01-infer_tokens.py \
-    --model_path model/model.pth \
-    --input_data your_path/train \
-    --output_path results/token_results/train
+  --model_path model/model.pth \
+  --input_data data/clinical \
+  --output_path results/token_results/clinical
 ```
 
-> 💡 You can organize different datasets into separate folders (e.g., `train/`, `test/`, `clinical/`).
-
----
-
-### **Step 3. Compute Temporal Features**
-
-Extract temporal dynamics from token sequences:
+## 3. Extract temporal features
 
 ```bash
 python 02-gather_features.py \
-    --token_folder results/token_results \
-    --save_file results/temporal_features.csv
+  --token_folder results/token_results \
+  --save_file results/clinical_temporal_features.csv
 ```
 
-This step computes:
+The CSV includes `pro_*` (fractional occupancy), `log_pro_*` (logit-transformed occupancy), and `dwell_*` (mean dwell time in seconds).
 
-* **Fractional Occupancy (FO)**
-* **Dwell Time (DT)**
+## 4. Score the data
+
+The supplied normative models are in `model/gamlss_model`. Normative z-score inference expects the feature CSV to include reference rows whose group is named `train`. If your input only contains a new dataset, first use the site-transfer workflow with an appropriate reference dataset; do not treat the small demo set as a normative reference.
+
+```bash
+python 04-infer_zscore.py \
+  --input_file results/temporal_features.csv \
+  --load_model model/gamlss_model \
+  --output_file results/temporal_features_with_zscore.csv
+```
+
+For site transfer, provide the full reference feature CSV, new-site feature CSV, model directory, and a proxy site present in the reference data:
+
+```bash
+python 05-transfer.py \
+  --input_file results/reference_temporal_features.csv \
+  --new_data results/new_site_temporal_features.csv \
+  --gamlss_model model/gamlss_model \
+  --proxy_site YOUR_REFERENCE_SITE \
+  --output_file results/new_site_temporal_features_with_zscore.csv
+```

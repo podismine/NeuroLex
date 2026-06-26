@@ -4,12 +4,11 @@ import warnings
 import pandas as pd
 import numpy as np
 from utils.utils import seed_everything
-from rpy2 import robjects as ro
 from gamlss_python.gamlss_main import Gamlss
 warnings.filterwarnings("ignore")
 
 def get_args():
-    p = argparse.ArgumentParser(description="Infer tokens using the trained NeuroLex model.")
+    p = argparse.ArgumentParser(description="Fit GAMLSS normative models for temporal features.")
     p.add_argument("--input_file", default="results/temporal_features.csv", type=str, help="Path to the input data frame with temporal features.")
     p.add_argument("--save_gamlss", default="results/gamlss_model", type=str, help="Path to the directory where GAMLSS models will be saved.")
     args = p.parse_args()
@@ -23,6 +22,12 @@ def main():
     df['age'] = pd.to_numeric(df['age'], errors='coerce')
     df['sex'] = pd.to_numeric(df['sex'], errors='coerce')
     train_df = df[df["group"].isin(["train"])].copy().reset_index(drop=True)
+    if train_df.empty:
+        raise ValueError("No training rows found. Set the training folder name to 'train'.")
+    required_columns = {"age", "sex", "site"}
+    missing_columns = required_columns - set(train_df.columns)
+    if missing_columns:
+        raise ValueError(f"Missing required columns: {sorted(missing_columns)}")
 
     to_save_dir = args.save_gamlss
     os.makedirs(to_save_dir, exist_ok=True)

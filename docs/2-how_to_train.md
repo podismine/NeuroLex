@@ -1,106 +1,36 @@
-## 🧪 How to Run Inference on Your Own Data
+# Fit a normative GAMLSS model
 
-This guide explains how to apply the NeuroLex pipeline to your own dataset.
+This workflow fits new feature-specific GAMLSS models. It requires a sufficiently large, quality-controlled normative cohort and should not be run on the demo data.
 
----
+## Prepare the feature table
 
-### **Step 1. Prepare your data**
+First create token files and temporal features as described in [the inference guide](1-how_to_inference.md). Put the normative cohort token files in `results/token_results/train/`; this ensures their rows have `group == "train"`.
 
-Organize your data into a folder where **each subject is stored as a `.pkl` file**.
+The feature CSV must contain `age`, `sex`, `site`, `group`, and the `log_pro_*`/`dwell_*` features. `sex` is encoded as 0 (male) or 1 (female) by `02-gather_features.py`.
 
-Each file should be a Python dictionary with the following keys:
-
-* `timeseries`: fMRI time series (NumPy array)
-* `age`: subject age
-* `sex`: subject sex (`male` / `female`)
-* `site`: site identifier (can be `"anonymous"`)
-
-#### Example
-
-```python
-import os
-import numpy as np
-import pickle
-
-save_dir = 'your_path/train'
-os.makedirs(save_dir, exist_ok=True)
-
-tmp = dict()
-dat = np.load(file_path)  # path/to/your/timeseries.npy
-
-tmp['timeseries'] = dat
-tmp['age'] = row['age']
-tmp['sex'] = row['sex']
-tmp['site'] = 'anonymous'
-
-save_path = os.path.join(save_dir, f"{name}.pkl")  # define your own naming
-with open(save_path, 'wb') as f:
-    pickle.dump(tmp, f)
-```
-
----
-
-### **Step 2. Infer Brain State Tokens (BSTs)**
-
-Run token inference using the pretrained NeuroLex model:
-
-```bash
-python 01-infer_tokens.py \
-    --model_path model/model.pth \
-    --input_data your_path/train \
-    --output_path results/token_results/train
-```
-
-> 💡 You can organize different datasets into separate folders (e.g., `train/`, `test/`, `clinical/`).
-
----
-
-### **Step 3. Compute Temporal Features**
-
-Extract temporal dynamics from token sequences:
-
-```bash
-python 02-gather_features.py \
-    --token_folder results/token_results \
-    --save_file results/temporal_features.csv
-```
-
-This step computes:
-
-* **Fractional Occupancy (FO)**
-* **Dwell Time (DT)**
-
----
-
-### **Step 4. Fit Normative Model (GAMLSS)**
-
-Train a lifespan normative model using your dataset:
+## Fit models
 
 ```bash
 python 03-fit_gamlss.py \
-    --input_file results/temporal_features.csv \
-    --save_gamlss results/gamlss_model
+  --input_file results/temporal_features.csv \
+  --save_gamlss results/gamlss_model
 ```
 
-> ⚠️ Requires sufficient sample size for stable estimation.
+One RDS model is created for each logit fractional-occupancy and dwell-time feature. The model fits age and sex effects and includes a site random effect.
 
----
-
-### **Step 5. Infer Normative Z-scores**
-
-Apply the trained GAMLSS model to compute subject-level deviations:
+## Calculate z-scores
 
 ```bash
 python 04-infer_zscore.py \
-    --input_file results/temporal_features.csv \
-    --load_model results/gamlss_model \
-    --output_file results/temporal_features_with_zscore.csv
+  --input_file results/temporal_features.csv \
+  --load_model results/gamlss_model \
+  --output_file results/temporal_features_with_zscore.csv
 ```
 
----
+The output adds one `<feature>_z_score` column for every fitted feature.
 
-## 📌 Notes & Best Practices
+## Practical considerations
 
-* Ensure consistent preprocessing across datasets (e.g., parcellation: Yeo-7, filtering).
-* Site information is important for cross-site generalization.
-* For clinical applications, always validate transfer performance.
+- Keep acquisition, preprocessing, network representation, and metadata coding consistent across cohorts.
+- Check age coverage, sex balance, and site sample sizes before fitting.
+- Use `05-transfer.py` to calibrate a model for a new site rather than silently pooling incompatible datasets.

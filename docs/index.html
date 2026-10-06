@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="NeuroLex: A normative reference for large-scale human brain dynamics across the lifespan." />
+  <title>NeuroLex | Lifespan Brain Dynamics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand" href="#top" aria-label="NeuroLex home">
+        <span class="brand-mark">N</span>
+        <span>NeuroLex</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#overview">Overview</a>
+        <a href="#framework">Framework</a>
+        <a href="#results">Results</a>
+        <a href="#use">Use NeuroLex</a>
+      </nav>
+      <a class="nav-github" href="https://github.com/podismine/NeuroLex" target="_blank" rel="noreferrer">GitHub ↗</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero section-shell">
+      <div class="hero-eyebrow">Lifespan normative modeling of dynamic brain states</div>
+      <h1>A normative reference for large-scale human brain dynamics across the lifespan</h1>
+      <p class="hero-authors">Yanwu Yang <span>et al.</span></p>
+      <p class="hero-copy">
+        NeuroLex transforms continuous resting-state fMRI dynamics into an interpretable vocabulary of recurrent brain-state tokens, then maps their temporal organization onto lifespan normative trajectories for individualized deviation analysis.
+      </p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="https://www.biorxiv.org/content/10.64898/2026.03.06.710057v1.abstract" target="_blank" rel="noreferrer">Read the preprint ↗</a>
+        <a class="button button-secondary" href="https://github.com/podismine/NeuroLex" target="_blank" rel="noreferrer">View code ↗</a>
+        <a class="button button-secondary" href="#use">Get started ↓</a>
+      </div>
+
+      <div class="hero-visual" aria-label="Conceptual NeuroLex workflow placeholder">
+        <div class="visual-glow visual-glow-one"></div>
+        <div class="visual-glow visual-glow-two"></div>
+        <div class="pipeline-card">
+          <div class="pipeline-node">
+            <span class="node-index">01</span>
+            <strong>fMRI dynamics</strong>
+            <small>continuous signals</small>
+          </div>
+          <div class="pipeline-arrow">→</div>
+          <div class="pipeline-node highlighted">
+            <span class="node-index">02</span>
+            <strong>12 tokens</strong>
+            <small>brain-state vocabulary</small>
+          </div>
+          <div class="pipeline-arrow">→</div>
+          <div class="pipeline-node">
+            <span class="node-index">03</span>
+            <strong>Temporal features</strong>
+            <small>FO · DT · switching</small>
+          </div>
+          <div class="pipeline-arrow">→</div>
+          <div class="pipeline-node">
+            <span class="node-index">04</span>
+            <strong>Normative reference</strong>
+            <small>lifespan trajectories</small>
+          </div>
+        </div>
+        <div class="visual-caption">Placeholder for the final NeuroLex teaser figure</div>
+      </div>
+    </section>
+
+    <section class="stats section-shell" aria-label="Study overview statistics">
+      <div class="stat-card"><strong>11,600+</strong><span>participants</span></div>
+      <div class="stat-card"><strong>98</strong><span>sites</span></div>
+      <div class="stat-card"><strong>6–88</strong><span>years of age</span></div>
+      <div class="stat-card"><strong>12</strong><span>brain-state tokens</span></div>
+    </section>
+
+    <section id="overview" class="section-shell content-section">
+      <div class="section-kicker">Overview</div>
+      <div class="section-heading-grid">
+        <h2>A vocabulary for human brain dynamics</h2>
+        <p>
+          The brain continuously moves through recurring large-scale configurations. NeuroLex represents these dynamics as a compact token sequence, creating a common language for quantifying how dynamic organization changes across age and differs across individuals.
+        </p>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <span class="feature-number">01</span>
+          <h3>Tokenize</h3>
+          <p>Map continuous functional dynamics onto a reproducible vocabulary of recurrent brain states.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-number">02</span>
+          <h3>Characterize</h3>
+          <p>Measure how frequently states occur, how long they persist, and how the system transitions over time.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-number">03</span>
+          <h3>Normalize</h3>
+          <p>Model age-resolved population trajectories and translate them into individualized normative scores.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="framework" class="section-shell content-section">
+      <div class="section-kicker">Framework</div>
+      <div class="section-heading-grid">
+        <h2>From signals to individualized reference maps</h2>
+        <p>
+          NeuroLex couples dynamic-state representation with normative modeling. The same compact representation supports population-level lifespan mapping and subject-level deviation analysis.
+        </p>
+      </div>
+
+      <div class="figure-placeholder figure-placeholder-wide">
+        <div class="placeholder-label">FIGURE PLACEHOLDER</div>
+        <div class="placeholder-title">NeuroLex framework</div>
+        <div class="placeholder-copy">Replace this block with the final overview or graphical abstract.</div>
+      </div>
+    </section>
+
+    <section id="results" class="results-band">
+      <div class="section-shell content-section">
+        <div class="section-kicker section-kicker-light">Key results</div>
+        <div class="section-heading-grid light-copy">
+          <h2>One reference, multiple scales of interpretation</h2>
+          <p>
+            The project page is structured around the scientific story rather than the paper figure order: lifespan organization first, individualized deviations second, and disorder-related alterations third.
+          </p>
+        </div>
+
+        <div class="result-grid">
+          <article class="result-card">
+            <div class="mini-figure">
+              <span class="curve curve-a"></span>
+              <span class="curve curve-b"></span>
+              <span class="curve curve-c"></span>
+            </div>
+            <p class="result-tag">Lifespan</p>
+            <h3>Dynamic states follow distinct age-related trajectories</h3>
+            <p>Different components of temporal brain organization exhibit characteristic changes from childhood through older adulthood.</p>
+          </article>
+
+          <article class="result-card">
+            <div class="mini-figure deviation-figure">
+              <span class="baseline"></span>
+              <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="dot d4"></span><span class="dot d5"></span>
+            </div>
+            <p class="result-tag">Individuals</p>
+            <h3>Population references become subject-level deviation profiles</h3>
+            <p>Normative scores quantify where an individual lies relative to the expected lifespan distribution.</p>
+          </article>
+
+          <article class="result-card">
+            <div class="mini-figure heatmap-figure">
+              <span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <p class="result-tag">Brain disorders</p>
+            <h3>Clinical groups show structured deviations from normative dynamics</h3>
+            <p>The normative reference offers a common coordinate system for comparing altered brain dynamics across disorders.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="use" class="section-shell content-section use-section">
+      <div class="section-kicker">Use NeuroLex</div>
+      <div class="section-heading-grid">
+        <h2>Run the pretrained pipeline on your data</h2>
+        <p>
+          The repository includes a pretrained NeuroLex checkpoint, example data, GAMLSS models, and scripts for token inference, temporal feature extraction, normative scoring, model fitting, and site transfer.
+        </p>
+      </div>
+
+      <div class="use-grid">
+        <div class="terminal-card">
+          <div class="terminal-header">
+            <div class="terminal-dots"><span></span><span></span><span></span></div>
+            <span>Quick start</span>
+          </div>
+          <pre><code><span class="code-muted"># environment</span>
+conda env create -f environment.yml
+conda activate NeuroLex
+
+<span class="code-muted"># infer brain-state tokens</span>
+python 01-infer_tokens.py \
+  --input_data demo_data/anonymous \
+  --output_path results/token_results/train
+
+<span class="code-muted"># derive temporal features</span>
+python 02-gather_features.py \
+  --token_folder results/token_results \
+  --save_file results/temporal_features.csv
+
+<span class="code-muted"># compute normative z-scores</span>
+python 04-infer_zscore.py \
+  --input_file results/temporal_features.csv \
+  --load_model model/gamlss_model</code></pre>
+        </div>
+
+        <div class="resource-list">
+          <a href="1-how_to_inference.md" class="resource-card">
+            <div>
+              <span class="resource-type">Documentation</span>
+              <strong>Inference guide</strong>
+              <p>Apply the pretrained NeuroLex pipeline and normative reference.</p>
+            </div>
+            <span class="resource-arrow">↗</span>
+          </a>
+          <a href="2-how_to_train.md" class="resource-card">
+            <div>
+              <span class="resource-type">Documentation</span>
+              <strong>Training guide</strong>
+              <p>Fit a new normative model using your own reference cohort.</p>
+            </div>
+            <span class="resource-arrow">↗</span>
+          </a>
+          <a href="https://github.com/podismine/NeuroLex/tree/main/model" class="resource-card" target="_blank" rel="noreferrer">
+            <div>
+              <span class="resource-type">Resources</span>
+              <strong>Models</strong>
+              <p>Access the pretrained checkpoint and bundled GAMLSS models.</p>
+            </div>
+            <span class="resource-arrow">↗</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-shell content-section citation-section">
+      <div class="citation-card">
+        <div>
+          <div class="section-kicker">Citation</div>
+          <h2>Use NeuroLex in your research</h2>
+          <p>Please cite the associated manuscript when using the code, pretrained model, or normative reference.</p>
+        </div>
+        <div class="citation-box">
+          <code>Yang Y, et al. A normative reference for large-scale human brain dynamics across the lifespan. bioRxiv (2026).</code>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="section-shell footer-inner">
+      <div>
+        <strong>NeuroLex</strong>
+        <p>A normative reference for large-scale human brain dynamics across the lifespan.</p>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/podismine/NeuroLex" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="https://www.biorxiv.org/content/10.64898/2026.03.06.710057v1.abstract" target="_blank" rel="noreferrer">Preprint</a>
+        <a href="#top">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
